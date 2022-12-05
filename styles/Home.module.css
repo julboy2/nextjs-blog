@@ -65,6 +65,10 @@
     Bitstream Vera Sans Mono, Courier New, monospace;
 }
 
+.href {
+  color: pink;
+}
+
 .grid {
   display: flex;
   align-items: center;
