@@ -2,6 +2,13 @@ import Date from "../../components/Date";
 import Layout from "../../components/Layout";
 import { getAllPostIds, getPostData } from "../../lib/posts";
 import utilStyles from "../../styles/utils.module.css";
+import { MDXRemote } from "next-mdx-remote";
+//import Button from "../../components/Button";
+import dynamic from "next/dynamic";
+
+const Button = dynamic(() => import("../../components/Button"), {
+  loading: () => <div>Loading...</div>,
+});
 
 export async function getStaticPaths() {
   const paths = getAllPostIds();
@@ -11,7 +18,8 @@ export async function getStaticPaths() {
   };
 }
 
-export async function getStaticProps({ params }) {
+export async function getStaticProps({ params, preview }) {
+  console.log(`>>>>> ${preview}`);
   const postData = await getPostData(params.id);
   return {
     props: {
@@ -19,6 +27,8 @@ export async function getStaticProps({ params }) {
     },
   };
 }
+
+const components = { Button };
 
 export default function Post({ postData }) {
   return (
@@ -29,7 +39,12 @@ export default function Post({ postData }) {
           <Date dateString={postData.date} />
         </div>
         <br />
-        <div dangerouslySetInnerHTML={{ __html: postData.contentHtml }} />
+        {postData.contentHtml && (
+          <div dangerouslySetInnerHTML={{ __html: postData.contentHtml }} />
+        )}
+        {postData.mdxSource && (
+          <MDXRemote {...postData.mdxSource} components={components} />
+        )}
       </article>
     </Layout>
   );

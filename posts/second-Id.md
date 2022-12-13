@@ -1,10 +1,7 @@
 ---
-title: "second-title"
-date: "2022-12-08"
+title : "second-id"
+date : "2022-12-13"
 ---
-
-######
-
-세번째글
-
-####
+  
+second-id
+  
