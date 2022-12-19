@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { useEffect, useState } from "react";
-import Layout, { siteTitle } from "../components/layout";
+import { siteTitle } from "../pages/_document";
 import { getSortedPostsData } from "../lib/posts";
 import utilStyles from "../styles/utils.module.css";
 import Link from "next/link";
@@ -37,7 +37,7 @@ export default function Home() {
   // csr 방법 끝
 
   return (
-    <Layout home>
+    <>
       <Head>
         <title>{siteTitle}</title>
       </Head>
@@ -60,6 +60,6 @@ export default function Home() {
           </li>
         ))}
       </ul>
-    </Layout>
+    </>
   );
 }

@@ -1,14 +1,15 @@
-import Date from "../../components/Date";
-import Layout from "../../components/Layout";
+import Date from "@components/Date";
 import { getAllPostIds, getPostData } from "../../lib/posts";
 import utilStyles from "../../styles/utils.module.css";
 import { MDXRemote } from "next-mdx-remote";
-//import Button from "../../components/Button";
-import dynamic from "next/dynamic";
+import Button from "@components/Button";
+import Head from "next/head";
+import { siteTitle } from "pages/_document";
+//import dynamic from "next/dynamic";
 
-const Button = dynamic(() => import("../../components/Button"), {
-  loading: () => <div>Loading...</div>,
-});
+// const Button = dynamic(() => import("../../components/Button"), {
+//   loading: () => <div>Loading...</div>,
+// });
 
 export async function getStaticPaths() {
   const paths = getAllPostIds();
@@ -30,10 +31,14 @@ export async function getStaticProps({ params, preview }) {
 
 const components = { Button };
 
-export default function Post({ postData }) {
+export default function Post({ postData, pathname }) {
   return (
-    <Layout>
+    <>
+      <Head>
+        <title>{`${postData.title} - ${siteTitle}`}</title>
+      </Head>
       <article>
+        <h2>{pathname}</h2>
         <h1 className={utilStyles.headingXl}>{postData.title}</h1>
         <div className={utilStyles.lightText}>
           <Date dateString={postData.date} />
@@ -46,6 +51,6 @@ export default function Post({ postData }) {
           <MDXRemote {...postData.mdxSource} components={components} />
         )}
       </article>
-    </Layout>
+    </>
   );
 }
